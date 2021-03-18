@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "amd",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "jsx": "react",
+    "baseUrl": "./src",
+    "types": [
+      "bluebird-global"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "typings.d.ts"
+  ]
+}
