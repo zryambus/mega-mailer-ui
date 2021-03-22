@@ -57,4 +57,17 @@ export interface MegaMailerApi {
       response: undefined
     }
   },
+  '/api/checking': {
+      get: {
+        params: undefined,
+        response: boolean,
+      },
+      post: {
+        params: undefined,
+        postData: {
+          state: boolean,
+        },
+        response: undefined;
+      }
+  },
 }
