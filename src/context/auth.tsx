@@ -33,9 +33,9 @@ function useProvideAuth(): IAuthProvider & { user?: User } {
       setUser(user);
       return user;
     } catch (e) {
-      if (e?.response?.status === 401) {
-        console.log('Need authorization');
-      }
+      // if (e?.response?.status === 401) {
+      //   console.log('Need authorization');
+      // }
       return undefined;
     }
   };
@@ -49,21 +49,13 @@ function useProvideAuth(): IAuthProvider & { user?: User } {
   }
 
   const signIn = async (username: string, code: string) => {
-    try {
-      await auth.requestor.postJson('/login', undefined, { username, code });
-      await getMe();
-    } catch (e) {
-      console.log(e);
-    }
+    await auth.requestor.postJson('/login', undefined, { username, code });
+    await getMe();
   };
 
   const signOut = async () => {
-    try {
-      await auth.requestor.getJson('/logout', undefined);
-      setUser(undefined);
-    } catch (e) {
-      console.log(e);
-    }
+    await auth.requestor.getJson('/logout', undefined);
+    setUser(undefined);
   };
 
   return { getMe, register, requestCode, signIn, signOut, user };
