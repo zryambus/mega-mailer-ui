@@ -13,6 +13,7 @@ import { Auth, ProvideAuth } from './context/auth';
 import { LoginView } from './views/login-view';
 import { AccountView } from './views/account-view';
 import { ProvideRequestor } from './context/requestor';
+import { NotificationSettingsView } from './views/notification-settings-view';
 
 Promise.config({
   cancellation: true
@@ -58,6 +59,9 @@ const App: React.FC = () => {
                   <Route path={'/login'}>
                     <LoginView/>
                   </Route>
+                  <PrivateRoute path={'/settings'}>
+                    <NotificationSettingsView />
+                  </PrivateRoute>
                   <PrivateRoute path={'/account'}>
                     <AccountView />
                   </PrivateRoute>

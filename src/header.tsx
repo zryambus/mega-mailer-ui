@@ -32,6 +32,7 @@ const Header: React.FC = () => {
           }
         </Typography>
         {!isLoginView && <>
+          <Link to={'/settings'}><Button>Notification settings</Button></Link>
           <Link to={'/account'}><Button>Account settings</Button></Link>
         </>}
         {!isLoginView && <>

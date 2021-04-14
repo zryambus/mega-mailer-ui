@@ -70,4 +70,15 @@ export interface MegaMailerApi {
         response: undefined;
       }
   },
+  '/api/working_hours': {
+      get: {
+        params: undefined,
+        response: [number, number] | null
+      },
+      post: {
+        params: undefined,
+        postData: [number, number],
+        response: undefined
+      },
+  },
 }
