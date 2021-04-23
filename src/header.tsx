@@ -1,28 +1,26 @@
 import * as React from 'react';
-import { AppBar, Toolbar, Typography, Button, Avatar } from '@material-ui/core';
-import {Link, useHistory, useLocation} from 'react-router-dom';
 import * as cl from 'app.scss';
-import {useContext} from 'react';
-import {Auth} from './context/auth';
+import { AppBar, Toolbar, Typography, Button, Avatar } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+import { getLogoutMutation, getUserQuery } from 'queries/auth';
 
 const Header: React.FC = () => {
-  const auth = useContext(Auth);
   const history = useHistory();
-  const location = useLocation();
-
-  const isLoginView = location.pathname === '/login';
+  const logoutMutation = getLogoutMutation();
 
   const Title = () => <span className={cl.noLinkDecoration}>Mega mailer</span>;
   const logout = async () => {
-    await auth.signOut();
+    logoutMutation.mutate();
     history.replace('/');
   }
+
+  const { data: user } = getUserQuery()
 
   return (
     <AppBar style={{ height: 50 }}>
       <Toolbar variant={'dense'}>
         <Typography variant={'h4'} className={cl.flexgrow}>
-          {!isLoginView
+          {user
             ? (
               <Link to={'/'} className={cl.noLinkDecoration}>
                 <Title />
@@ -31,12 +29,12 @@ const Header: React.FC = () => {
             : <Title />
           }
         </Typography>
-        {!isLoginView && <>
+        {user && <>
           <Link to={'/settings'}><Button>Notification settings</Button></Link>
           <Link to={'/account'}><Button>Account settings</Button></Link>
         </>}
-        {!isLoginView && <>
-          <Avatar variant={'rounded'} src={auth?.user?.photo}/>
+        {user && <>
+          <Avatar variant={'rounded'} src={user?.photo}/>
           <Button onClick={logout}>Logout</Button>
         </>}
       </Toolbar>

@@ -6,18 +6,16 @@ import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import 'typeface-roboto';
 
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
 import { RootView } from 'views/root-view';
 import { Header } from 'header';
 import { theme } from 'theme-provider';
-import { Auth, ProvideAuth } from './context/auth';
-import { LoginView } from './views/login-view';
-import { AccountView } from './views/account-view';
-import { ProvideRequestor } from './context/requestor';
-import { NotificationSettingsView } from './views/notification-settings-view';
+import { AuthorizedOnly } from 'context/auth';
+import { AccountView } from 'views/account-view';
+import { NotificationSettingsView } from 'views/notification-settings-view';
 
-Promise.config({
-  cancellation: true
-});
 
 const NoMatch = () => (
   <div>
@@ -25,57 +23,42 @@ const NoMatch = () => (
   </div>
 );
 
-const PrivateRoute: React.FC<Route['props']> = ({ children, ...rest }) => {
-  const auth = React.useContext(Auth);
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        auth.user ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location.pathname }
-            }}
-          />
-        )
-      }
-    />
-  )
-}
-
 const App: React.FC = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+      }
+    }
+  });
   return (
-    <ProvideAuth>
-      <ProvideRequestor>
-        <Router>
-          <ThemeProvider theme={theme}>
-            <div className={cl.app}>
-              <Header />
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <div className={cl.app}>
+            <Header />
+            <AuthorizedOnly>
               <div className={cl.viewContainer}>
                 <Switch>
-                  <Route path={'/login'}>
-                    <LoginView/>
-                  </Route>
-                  <PrivateRoute path={'/settings'}>
+                  <Route path={'/settings'}>
                     <NotificationSettingsView />
-                  </PrivateRoute>
-                  <PrivateRoute path={'/account'}>
+                  </Route>
+                  <Route path={'/account'}>
                     <AccountView />
-                  </PrivateRoute>
-                  <PrivateRoute path={'/'}>
+                  </Route>
+                  <Route path={'/'}>
                     <RootView />
-                  </PrivateRoute>
+                  </Route>
                   <Route component={NoMatch} />
                 </Switch>
               </div>
-            </div>
-          </ThemeProvider>
-        </Router>
-      </ProvideRequestor>
-    </ProvideAuth>
+            </AuthorizedOnly>
+          </div>
+        </ThemeProvider>
+      </Router>
+      <ReactQueryDevtools initialIsOpen={true}/>
+    </QueryClientProvider>
   );
 }
 

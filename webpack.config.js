@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const ouputPath = path.resolve(__dirname, './build');
+const outputPath = path.resolve(__dirname, './build');
 
 const extractStyleLoaders = [
   MiniCssExtractPlugin.loader,
@@ -29,7 +29,7 @@ module.exports = [
     },
 
     output: {
-      path: ouputPath,
+      path: outputPath,
       publicPath: '/',
       filename: '[name].js',
     },
@@ -42,9 +42,6 @@ module.exports = [
         path.resolve('./src'),
         'node_modules'
       ],
-      alias: {
-        bluebird: path.resolve('node_modules/bluebird/js/browser/bluebird')
-      },
     },
 
     module: {
@@ -106,15 +103,12 @@ module.exports = [
       new MiniCssExtractPlugin({
         filename: '/styles/style.css'
       }),
-      new webpack.ProvidePlugin({
-        Promise: 'bluebird'
-      }),
     ]
   },
   {
     entry: './src/app.scss',
     output: {
-      path: ouputPath
+      path: outputPath
     },
     resolve: {
       extensions: ['.scss', '.css'],

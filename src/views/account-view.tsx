@@ -1,48 +1,43 @@
 import * as React from 'react';
-import { useRequestor } from 'context/requestor';
 import cn from 'classnames';
-import * as cl from '../_base.scss';
+import * as cl from '_base.scss';
 import { Button, TextField } from '@material-ui/core';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import HighlightOff from '@material-ui/icons/HighlightOff';
+import { getAccountMutation, getAccountQuery, getCheckingMutation, getCheckingQuery } from 'queries/account';
 
 const AccountView: React.FC = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [checking, setChecking] = React.useState(false)
-  const requestor = useRequestor();
 
   React.useEffect(() => {
     document.title = 'Account';
-
-    const f = (async () => {
-      const res = await requestor.getJson('/api/account', undefined)
-      if (!res) return;
-      const { email, password } = res;
-      setEmail(email);
-      setPassword(password);
-    })();
-
-    return () => {
-      f.cancel();
-    }
   }, []);
+
+  const accountQuery = getAccountQuery();
+  const accountMutation = getAccountMutation();
+
+  const checkingQuery = getCheckingQuery();
+  const checkingMutation = getCheckingMutation();
 
   React.useEffect(() => {
-    const f = (async () => {
-      const checking = await requestor.getJson('/api/checking', undefined);
-      setChecking(checking);
-    })();
-    return () => f.cancel()
-  }, []);
+    const { data: account } = accountQuery;
+    setEmail(account?.email || '');
+    setPassword(account?.password || '')
+  }, [accountQuery.data])
 
-  const update = async () => {
-    await requestor.postJson('/api/account', undefined, { email, password });
+  React.useEffect(() => {
+    const { data: checking } = checkingQuery;
+    setChecking(!!checking);
+  }, [checkingQuery.data])
+
+  const update = () => {
+    accountMutation.mutate({ email, password });
   };
 
-  const toggle_checking = async () => {
-    await requestor.postJson('/api/checking', undefined, { state: !checking });
-    setChecking(!checking);
+  const toggleChecking = async () => {
+    checkingMutation.mutate(!checking);
   };
 
   return(<div className={cn(cl.fullSize, cl.flexbox)}>
@@ -73,7 +68,7 @@ const AccountView: React.FC = () => {
         color={checking ? 'secondary' : 'primary'}
         size={'large'}
         startIcon={checking ? <HighlightOff /> : <CheckCircle />}
-        onClick={toggle_checking}
+        onClick={toggleChecking}
       >
         {checking ? 'Disable checking' : 'Enable checking'}
       </Button>

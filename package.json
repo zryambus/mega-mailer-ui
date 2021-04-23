@@ -12,8 +12,6 @@
     "@types/react": "17.0.2",
     "@types/react-dom": "17.0.1",
     "@types/react-router-dom": "5.1.7",
-    "@types/bluebird": "3.5.33",
-    "@types/bluebird-global": "3.5.12",
     "css-loader": "5.1.1",
     "dts-css-modules-loader": "1.1.1",
     "file-loader": "6.2.0",
@@ -42,6 +40,6 @@
     "react-dom": "17.0.1",
     "react-router-dom": "5.2.0",
     "typeface-roboto": "1.1.13",
-    "bluebird": "3.7.2"
+    "react-query": "3.13.10"
   }
 }

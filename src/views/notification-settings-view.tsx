@@ -1,40 +1,29 @@
 import * as React from 'react';
 import cn from 'classnames';
 import * as cl from '_base.scss';
-import { Badge, Button, Input, Slider, Tooltip, Typography } from '@material-ui/core';
-import { useRequestor } from 'context/requestor';
+import { Button, Input, Slider, Tooltip, Typography } from '@material-ui/core';
 import { Warning } from '@material-ui/icons';
+
+import { getWorkingHoursMutation, getWorkingHoursQuery } from 'queries/working-hours';
 
 const initialWorkingHours: [number, number] = [10, 19];
 
 const NotificationSettingsView: React.FC = () => {
   const [workingHours, setWorkingHours] = React.useState(initialWorkingHours);
-  const [whNotSet, setWhNotSet] = React.useState(true);
   const handleChange = (event: any, newValue: [number, number]) => {
     setWorkingHours(newValue);
   };
 
-  const requestor = useRequestor();
+  const workingHoursQuery = getWorkingHoursQuery();
+  const workingHoursMutation = getWorkingHoursMutation();
 
   React.useEffect(() => {
-    const f = (async () => {
-      const hours = await requestor.getJson('/api/working_hours', undefined);
-      if (hours == null)
-        return;
-
-      setWorkingHours(hours);
-      setWhNotSet(false);
-    })();
-    return () => f.cancel();
-  }, []);
-
-  const saveWorkingHours = async () => {
-    await requestor.postJson('/api/working_hours', undefined, workingHours);
-    setWhNotSet(false);
-  };
+    if (workingHoursQuery.status === 'success')
+      setWorkingHours(workingHoursQuery.data);
+  }, [workingHoursQuery.data])
 
   const Alert = () => {
-    if (whNotSet) {
+    if (workingHoursQuery.data == null) {
       return (
         <Tooltip title={'Currently not set'}>
           <Warning color={'error'}  />
@@ -42,6 +31,10 @@ const NotificationSettingsView: React.FC = () => {
       );
     }
     return <div/>;
+  }
+
+  if (workingHoursQuery.isLoading) {
+    return <h3>Loading</h3>;
   }
 
   return (
@@ -85,7 +78,7 @@ const NotificationSettingsView: React.FC = () => {
           variant={'outlined'}
           color={'primary'}
           size={'large'}
-          onClick={saveWorkingHours}
+          onClick={() => workingHoursMutation.mutate(workingHours)}
         >
           Save working hours
         </Button>
