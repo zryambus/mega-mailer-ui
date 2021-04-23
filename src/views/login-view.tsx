@@ -11,6 +11,8 @@ import HourglassEmpty from '@material-ui/icons/HourglassEmpty'
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { requestor } from 'context/requestor';
 import { getUserMutation, getUserQuery } from 'queries/auth';
+import { Redirect } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 function Alert(props: AlertProps) {
@@ -22,6 +24,7 @@ const LoginView: React.FC = () => {
   const [code, setCode] = useState('');
   const [showSnack, setShowSnack] = useState(false);
   const [snackMessage, setSnackMessage] = useState<React.ReactNode>('');
+  const location = useLocation();
 
   const userQuery = getUserQuery();
   const userMutation = getUserMutation();
@@ -75,6 +78,10 @@ const LoginView: React.FC = () => {
     }
     setShowSnack(true);
   };
+
+  if (userQuery.data != null) {
+    return <Redirect to={location.state?.from || '/'} />
+  }
 
   return userQuery.isLoading
     ? (

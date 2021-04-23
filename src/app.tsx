@@ -12,9 +12,10 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { RootView } from 'views/root-view';
 import { Header } from 'header';
 import { theme } from 'theme-provider';
-import { AuthorizedOnly } from 'context/auth';
 import { AccountView } from 'views/account-view';
 import { NotificationSettingsView } from 'views/notification-settings-view';
+import { getUserQuery } from 'queries/auth';
+import { LoginView } from './views/login-view';
 
 
 const NoMatch = () => (
@@ -22,6 +23,23 @@ const NoMatch = () => (
     No Match
   </div>
 );
+
+const PrivateRoute: React.FC<{path: string}> = ({ children, path }) => {
+  const userQuery = getUserQuery();
+
+  return (
+    <Route render={({ location }) => userQuery.data != null
+      ? (
+        children
+      )
+      : (
+        <Redirect to={{
+          pathname: '/login',
+          state: { from: location.pathname }
+        }} />
+      )} />
+  );
+}
 
 const App: React.FC = () => {
   const queryClient = new QueryClient({
@@ -38,22 +56,23 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
           <div className={cl.app}>
             <Header />
-            <AuthorizedOnly>
-              <div className={cl.viewContainer}>
-                <Switch>
-                  <Route path={'/settings'}>
-                    <NotificationSettingsView />
-                  </Route>
-                  <Route path={'/account'}>
-                    <AccountView />
-                  </Route>
-                  <Route path={'/'}>
-                    <RootView />
-                  </Route>
-                  <Route component={NoMatch} />
-                </Switch>
-              </div>
-            </AuthorizedOnly>
+            <div className={cl.viewContainer}>
+              <Switch>
+                <PrivateRoute path={'/settings'}>
+                  <NotificationSettingsView />
+                </PrivateRoute>
+                <PrivateRoute path={'/account'}>
+                  <AccountView />
+                </PrivateRoute>
+                <Route path={'/login'}>
+                  <LoginView />
+                </Route>
+                <Route path={'/'}>
+                  <RootView />
+                </Route>
+                <Route component={NoMatch} />
+              </Switch>
+            </div>
           </div>
         </ThemeProvider>
       </Router>
