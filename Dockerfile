@@ -1,6 +1,6 @@
 FROM node:14.16.0-alpine3.12 as build
 
-COPY webpack.config.js typings.d.ts tsconfig.json package.json index.html /build/
+COPY webpack.config.js typings.d.ts tsconfig.json package.json index.html mail.svg /build/
 COPY src /build/src
 
 WORKDIR /build
