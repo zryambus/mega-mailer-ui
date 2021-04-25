@@ -81,4 +81,19 @@ export interface MegaMailerApi {
         response: undefined
       },
   },
+  '/api/important_emails': {
+    get: {
+      params: undefined,
+      response: string[]
+    },
+    patch: {
+      params: { email: string },
+      patchData: undefined,
+      response: undefined
+    },
+    delete: {
+      params: { email: string },
+      response: undefined
+    }
+  }
 }

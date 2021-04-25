@@ -16,6 +16,7 @@ import { AccountView } from 'views/account-view';
 import { NotificationSettingsView } from 'views/notification-settings-view';
 import { getUserQuery } from 'queries/auth';
 import { LoginView } from './views/login-view';
+import { ImportanceSettingsView } from './views/importance-settings-view';
 
 
 const NoMatch = () => (
@@ -58,6 +59,9 @@ const App: React.FC = () => {
             <Header />
             <div className={cl.viewContainer}>
               <Switch>
+                <PrivateRoute path={'/importance'}>
+                  <ImportanceSettingsView />
+                </PrivateRoute>
                 <PrivateRoute path={'/settings'}>
                   <NotificationSettingsView />
                 </PrivateRoute>

@@ -30,6 +30,7 @@ const Header: React.FC = () => {
           }
         </Typography>
         {user && <>
+          <Link to={'/importance'}><Button>Importance settings</Button></Link>
           <Link to={'/settings'}><Button>Notification settings</Button></Link>
           <Link to={'/account'}><Button>Account settings</Button></Link>
         </>}

@@ -41,7 +41,7 @@ const NotificationSettingsView: React.FC = () => {
     <div className={cn(cl.fullSize, cl.flexbox)}>
       <div className={cn(cl.marginAuto, cl.flexcol, cl.childSpacingV)}>
         <div className={cl.flexrow}>
-          <Typography gutterBottom>
+          <Typography variant={'h5'} gutterBottom>
             Working hours
           </Typography>
           <Alert />
