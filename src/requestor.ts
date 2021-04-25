@@ -14,6 +14,12 @@ interface DeleteParams {
   response: any;
 }
 
+interface PatchParams {
+  params: any;
+  patchData: any;
+  response: any;
+}
+
 type ApiBase<T extends string> = {
   [action in T]: { readonly get: Readonly<GetParams> } | { readonly post: Readonly<PostParams> } | { readonly delete: Readonly<DeleteParams>};
 };
@@ -29,6 +35,7 @@ type StringKeys<T> = Extract<keyof T, string>;
 type GetActions<Api> = TypeActions<Api, { readonly get: Readonly<GetParams> }>;
 type PostActions<Api> = TypeActions<Api, { readonly post: Readonly<PostParams> }>;
 type DeleteActions<Api> = TypeActions<Api, { readonly delete: Readonly<DeleteParams> }>;
+type PatchActions<Api> = TypeActions<Api, { readonly patch: Readonly<PatchParams>}>
 
 export interface ApiRequestor<Api extends ApiBase<StringKeys<Api>>> {
   getJson<Action extends keyof GetActions<Api>>(
@@ -46,6 +53,12 @@ export interface ApiRequestor<Api extends ApiBase<StringKeys<Api>>> {
     action: Action,
     params: DeleteActions<Api>[Action]['delete']['params']
   ): Promise<DeleteActions<Api>[Action]['delete']['response']>
+
+  patchJson<Action extends keyof PatchActions<Api>>(
+    action: Action,
+    params: PatchActions<Api>[Action]['patch']['params'],
+    patchData: PatchActions<Api>[Action]['patch']['patchData'],
+  ): Promise<PatchActions<Api>[Action]['patch']['response']>
 }
 
 import axios from 'axios';
@@ -65,6 +78,11 @@ export class Requestor implements ApiRequestor<any> {
 
   async deleteJson<T = Object>(action: string, params: Object): Promise<T> {
     const { data } = await this.requestor.delete(action, { params });
+    return data;
+  }
+
+  async patchJson<T = Object>(action: string, params: Object, patchData: Object): Promise<T> {
+    const { data } = await this.requestor.patch(action, patchData, { params });
     return data;
   }
 }
