@@ -11,3 +11,4 @@ FROM alpine
 
 COPY --from=build /build/build /opt/mega-mailer/build
 COPY --from=build /build/index.html /opt/mega-mailer/
+COPY --from=build /build/mail.svg /opt/mega-mailer/
