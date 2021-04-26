@@ -16,8 +16,6 @@ import { AccountView } from 'views/account-view';
 import { NotificationSettingsView } from 'views/notification-settings-view';
 import { getUserQuery } from 'queries/auth';
 import { LoginView } from './views/login-view';
-import { ImportantAddresses } from './views/important-addresses';
-
 
 const NoMatch = () => (
   <div>

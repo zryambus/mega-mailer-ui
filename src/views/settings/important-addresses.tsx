@@ -48,15 +48,15 @@ const ImportantAddresses: React.FC = () => {
   const inputIsValid = validateEmail(email);
 
   return (
-    <div className={cn(cl.fullSize, cl.flexbox)}>
-      <div className={cn(cl.marginAuto, cl.flexcol, cl.childSpacingV, cl.wideControlWidth)}>
-        <Typography variant={'h5'} gutterBottom>
-          Important addresses
-        </Typography>
-        <Typography gutterBottom>
-          Receive notifications immediately from these addresses
-        </Typography>
-        <List>
+    <div className={cn(cl.flexcol, cl.childSpacingV, cl.wideControlWidth)}>
+      <Typography variant={'h5'} gutterBottom>
+        Important addresses
+      </Typography>
+      <Typography gutterBottom>
+        Receive notifications immediately from these addresses
+      </Typography>
+      <div className={cn(cl.flexbox, cl.flexgrow, cl.flexBasis0, cl.overflowY, cl.minHeight100Px)}>
+        <List className={cn(cl.flexcol, cl.flexgrow)}>
           {importantEmailsQuery.data.map((email, index) => (
             <React.Fragment key={index}>
               <ListItem>
@@ -71,25 +71,25 @@ const ImportantAddresses: React.FC = () => {
             </React.Fragment>
           ))}
         </List>
-        <TextField
-          value={email}
-          onChange={e => setEmail(e.currentTarget.value)}
-          placeholder={'Important email'}
-          type={'email'}
-          variant={'outlined'}
-          error={!!(email.length && !inputIsValid)}
-        />
-        <Button
-          variant={'outlined'}
-          color={'primary'}
-          size={'large'}
-          startIcon={<Add />}
-          onClick={add}
-          disabled={!email.length || !inputIsValid}
-        >
-          Add
-        </Button>
       </div>
+      <TextField
+        value={email}
+        onChange={e => setEmail(e.currentTarget.value)}
+        placeholder={'Important email'}
+        type={'email'}
+        variant={'outlined'}
+        error={!!(email.length && !inputIsValid)}
+      />
+      <Button
+        variant={'outlined'}
+        color={'primary'}
+        size={'large'}
+        startIcon={<Add />}
+        onClick={add}
+        disabled={!email.length || !inputIsValid}
+      >
+        Add
+      </Button>
     </div>
   )
 };

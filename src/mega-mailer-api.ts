@@ -95,5 +95,20 @@ export interface MegaMailerApi {
       params: { email: string },
       response: undefined
     }
+  },
+  '/api/important_tags': {
+    get: {
+      params: undefined,
+      response: string[]
+    },
+    patch: {
+      params: { tag: string },
+      patchData: undefined,
+      response: undefined
+    },
+    delete: {
+      params: { tag: string },
+      response: undefined
+    }
   }
 }

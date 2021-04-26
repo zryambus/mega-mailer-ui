@@ -18,3 +18,21 @@ export function getImportantEmailsRemoveMutation() {
     return requestor.deleteJson('/api/important_emails', { email });
   }, 'IMPORTANT_EMAILS')
 }
+
+export function getImportantTagsQuery() {
+  return useQuery('IMPORTANT_TAGS', () => {
+    return requestor.getJson('/api/important_tags', undefined);
+  });
+}
+
+export function getImportantTagsAddMutation() {
+  return useMutation<void, string>(tag => {
+    return requestor.patchJson('/api/important_tags', { tag }, undefined);
+  }, 'IMPORTANT_TAGS')
+}
+
+export function getImportantTagsRemoveMutation() {
+  return useMutation<void, string>(tag => {
+    return requestor.deleteJson('/api/important_tags', { tag });
+  }, 'IMPORTANT_TAGS')
+}
