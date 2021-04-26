@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import { Add, Delete } from '@material-ui/icons';
 
-export { ImportanceSettingsView };
+export { ImportantAddresses };
 
 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -25,7 +25,7 @@ function validateEmail(email: string) {
   return re.test(String(email).toLowerCase());
 }
 
-const ImportanceSettingsView: React.FC = () => {
+const ImportantAddresses: React.FC = () => {
   const importantEmailsQuery = getImportantEmailsQuery();
   const importantEmailsAddMutation = getImportantEmailsAddMutation();
   const importantEmailsRemoveMutation = getImportantEmailsRemoveMutation();
@@ -58,8 +58,8 @@ const ImportanceSettingsView: React.FC = () => {
         </Typography>
         <List>
           {importantEmailsQuery.data.map((email, index) => (
-            <>
-              <ListItem key={index}>
+            <React.Fragment key={index}>
+              <ListItem>
                 <ListItemText primary={email} />
                 <ListItemSecondaryAction>
                   <IconButton edge={'end'} aria-label={'Remove'} onClick={() => deleteEmail(email)}>
@@ -68,7 +68,7 @@ const ImportanceSettingsView: React.FC = () => {
                 </ListItemSecondaryAction>
               </ListItem>
               {(importantEmailsQuery.data.length != index + 1) && <Divider variant={'fullWidth'} component={'li'} />}
-            </>
+            </React.Fragment>
           ))}
         </List>
         <TextField
@@ -77,7 +77,7 @@ const ImportanceSettingsView: React.FC = () => {
           placeholder={'Important email'}
           type={'email'}
           variant={'outlined'}
-          error={email.length && !inputIsValid}
+          error={!!(email.length && !inputIsValid)}
         />
         <Button
           variant={'outlined'}
