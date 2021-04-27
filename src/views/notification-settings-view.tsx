@@ -15,7 +15,7 @@ const NotificationSettingsView: React.FC = () => {
   const tabsProps = (id: string) => (
     {
       value: id,
-      className:tab === id && cl.tab
+      className: tab === id ? cl.tab : undefined
     }
   );
 

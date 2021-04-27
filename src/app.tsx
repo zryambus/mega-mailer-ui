@@ -16,6 +16,7 @@ import { AccountView } from 'views/account-view';
 import { NotificationSettingsView } from 'views/notification-settings-view';
 import { getUserQuery } from 'queries/auth';
 import { LoginView } from './views/login-view';
+import { StatusView } from './views/status-view';
 
 const NoMatch = () => (
   <div>
@@ -57,6 +58,9 @@ const App: React.FC = () => {
             <Header />
             <div className={cl.viewContainer}>
               <Switch>
+                <Route path={'/status'}>
+                  <StatusView />
+                </Route>
                 <PrivateRoute path={'/settings'}>
                   <NotificationSettingsView />
                 </PrivateRoute>

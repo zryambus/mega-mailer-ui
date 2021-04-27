@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
-import { UseMutationOptions } from 'react-query/types/react/types';
+import { UseMutationOptions, UseQueryOptions } from 'react-query/types/react/types';
 import { QueryFunction, MutationFunction } from 'react-query/types/core/types';
 import { useMutation as useMutationImpl, useQuery as useQueryImpl, useQueryClient, QueryKey } from 'react-query';
 
-export function useQuery<TData>(key: QueryKey, fn: QueryFunction<TData>) {
-  return useQueryImpl<TData, AxiosError>(key, fn);
+export function useQuery<TData>(key: QueryKey, fn: QueryFunction<TData>, options: UseQueryOptions<any, AxiosError, TData> = {}) {
+  return useQueryImpl<TData, AxiosError>(key, fn, options);
 }
 
 export function useMutation<TData, TVariables extends any = undefined, TError = AxiosError>(

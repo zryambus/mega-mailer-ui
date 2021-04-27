@@ -110,5 +110,11 @@ export interface MegaMailerApi {
       params: { tag: string },
       response: undefined
     }
+  },
+  '/api/heartbeat': {
+    get: {
+      params: undefined,
+      response: { TELEGRAM_BOT?: number, MAIL_CHECKER?: number }
+    }
   }
 }

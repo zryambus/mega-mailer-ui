@@ -38,7 +38,7 @@ const WorkingHours: React.FC = () => {
   }
 
   return (
-    <div className={cn(cl.flexcol, cl.childSpacingV)}>
+    <div className={cn(cl.flexcol, cl.childSpacingV, cl.justifyContentCenter)}>
       <div className={cl.flexrow}>
         <Typography variant={'h5'} gutterBottom>
           Working hours
