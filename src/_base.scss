@@ -57,12 +57,24 @@
   flex-basis: 50%;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .overflow-y {
   overflow-y: auto;
 }
 
 .align-items-center {
   align-items: center;
+}
+
+.align-items-baseline {
+  align-items: baseline;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
 }
 
 .justify-content-center {
@@ -111,6 +123,12 @@
 .child-spacing-h {
   & > *:not(:last-child) {
     margin-right: 5px;
+  }
+}
+
+.child-spacing {
+  & > * {
+    margin: 5px;
   }
 }
 

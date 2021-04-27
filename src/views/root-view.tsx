@@ -9,7 +9,7 @@ const RootView: React.FC = () => {
 
   return (
     <div>
-      <Redirect to={'/account'} />
+      <Redirect to={'/status'} />
     </div>
   );
 };
