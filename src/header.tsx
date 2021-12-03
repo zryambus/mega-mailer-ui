@@ -29,6 +29,9 @@ const Header: React.FC = () => {
             : <Title />
           }
         </Typography>
+        {user == null && <>
+          <Link to={'/login'}><Button>Login</Button></Link>
+        </>}
         <Link to={'/status'}><Button>Service status</Button></Link>
         {user && <>
           <Link to={'/settings'}><Button>Notification settings</Button></Link>
