@@ -18,7 +18,7 @@ const WorkingHours: React.FC = () => {
   const workingHoursMutation = getWorkingHoursMutation();
 
   React.useEffect(() => {
-    if (workingHoursQuery.status === 'success')
+    if (workingHoursQuery.status === 'success' && workingHoursQuery.data != null)
       setWorkingHours(workingHoursQuery.data);
   }, [workingHoursQuery.data])
 
