@@ -1,4 +1,4 @@
-FROM node:16.14.0-alpine3.14 as build
+FROM node:16 as build
 
 COPY webpack.config.js typings.d.ts tsconfig.json package.json index.html mail.svg /build/
 COPY src /build/src
