@@ -1,16 +1,26 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import * as cl from './_base.scss';
+import { createRoot } from 'react-dom/client';
+import {
+  MantineProvider, Button, Container, Code, Collapse, Title, Loader, Alert, NavLink,
+  Navbar, Header, AppShell, Avatar, Burger, Text
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import axios from 'axios';
+import { create } from 'zustand';
+import { IconAlertCircle, IconArrowBack, IconArrowLeft, IconBook, IconBug, IconFilePlus } from '@tabler/icons-react';
+import {
+  createMemoryRouter,
+  RouterProvider,
+  Link,
+  useNavigate,
+  Outlet
+} from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { useStore } from 'zustand';
 
-import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/styles'
-import 'typeface-roboto';
-
-import { QueryClientProvider, QueryClient } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { RootView } from 'views/root-view';
-import { Header } from 'header';
+import { Header as MyHeader } from 'header';
 import { theme } from 'theme-provider';
 import { AccountView } from 'views/account-view';
 import { NotificationSettingsView } from 'views/notification-settings-view';
@@ -24,21 +34,44 @@ const NoMatch = () => (
   </div>
 );
 
-const PrivateRoute: React.FC<{path: string}> = ({ children, path }) => {
-  const userQuery = getUserQuery();
+const View: React.FC = () => {
+  const user = useStore(s => s.user);
+  const navigate = useNavigate();
+  const [showNavbar, { toggle: toggleNavbar, close: closeNavBar }] = useDisclosure(false);
+
+  if (!user)
+    return null;
 
   return (
-    <Route render={({ location }) => userQuery.data != null
-      ? (
-        children
-      )
-      : (
-        <Redirect to={{
-          pathname: '/login',
-          state: { from: location.pathname }
-        }} />
-      )} />
-  );
+    <AppShell
+      padding={'sm'}
+      header={<Header height={60} p={'sm'} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Burger opened={showNavbar} onClick={toggleNavbar} />
+        <Title>MegaMailer</Title>
+        <Avatar src={user.photo_url} alt={user.first_name} />
+      </Header>}
+      navbar={showNavbar ? (
+        <Navbar>
+          <Navbar.Section>
+            <NavLink
+              label={'Manage profiles'}
+              onClick={() => { navigate('/manage'); closeNavBar(); }}
+              styles={{ label: { fontSize: 18 } }}
+              icon={<IconBook />}					
+            />
+            <NavLink
+              label={'Add profile'}
+              onClick={() => { navigate('/add'); closeNavBar(); }}
+              styles={{ label: { fontSize: 18 } }}
+              icon={<IconFilePlus />}
+            />
+          </Navbar.Section>
+        </Navbar>
+      ) : undefined}
+    >
+      <Outlet />
+    </AppShell>
+  )
 }
 
 const App: React.FC = () => {
@@ -50,12 +83,34 @@ const App: React.FC = () => {
       }
     }
   });
+  
+  const router = createMemoryRouter([
+    {
+      path: '/',
+      element: <View />,
+      children: [
+        {
+          path: 'status',
+          element: <StatusView />
+        },
+        {
+          path: 'settings',
+          element: <NotificationSettingsView />
+        },
+        {
+          path: 'account',
+          element: <AccountView />
+        }
+      ]
+    },
+  ]);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
+      {/* <Router>
         <ThemeProvider theme={theme}>
           <div className={cl.app}>
-            <Header />
+            <MyHeader />
             <div className={cl.viewContainer}>
               <Switch>
                 <Route path={'/status'}>
@@ -78,10 +133,28 @@ const App: React.FC = () => {
             </div>
           </div>
         </ThemeProvider>
-      </Router>
-      <ReactQueryDevtools initialIsOpen={true}/>
+      </Router> */}
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={{
+        colorScheme: window.Telegram.WebApp.colorScheme,
+      }}>
+        <Container
+          style={{ display: 'flex', flexDirection: 'column' }}
+          p={'md'}
+          h={'100%'}
+        >
+          {/* {loading && <Loader size={'xl'} />}
+          {authFailed && (
+            <Alert icon={<IconAlertCircle size="1rem" />} title="Error" color="red" variant="outline" style={{ overflow: 'auto' }}>
+              Authentication failed. Something went wrong
+              <pre>{JSON.stringify(window.Telegram.WebApp.initDataUnsafe)}</pre>
+            </Alert>
+          )} */}
+          <RouterProvider router={router} />
+        </Container>
+      </MantineProvider>
     </QueryClientProvider>
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = createRoot(document.querySelector('#root')!);
+root.render(<App />);

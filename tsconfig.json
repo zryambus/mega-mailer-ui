@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "amd",
+    "target": "ES2019",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "sourceMap": true,
     "jsx": "react",
     "baseUrl": "./src",
-    "types": [
-      "bluebird-global"
-    ]
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
   },
   "include": [
     "src/**/*",

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as cl from '_base.scss';
 import cn from 'classnames';
+
 import { getHeartbeatQuery } from 'queries/heartbeat';
-import { List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
-import { Check, Close } from '@material-ui/icons';
 
 const StatusView: React.FC = () => {
   const heartbeatQuery = getHeartbeatQuery();

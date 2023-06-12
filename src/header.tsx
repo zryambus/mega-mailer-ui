@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as cl from 'app.scss';
-import { AppBar, Toolbar, Typography, Button, Avatar } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import { getLogoutMutation, getUserQuery } from 'queries/auth';
 
