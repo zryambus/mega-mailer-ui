@@ -2741,6 +2741,7 @@ __metadata:
     classnames: "npm:2.3.2"
     history: "npm:5.3.0"
     parcel: "npm:2.10.1"
+    process: "npm:^0.11.10"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-query: "npm:3.39.3"
@@ -3277,6 +3278,13 @@ __metadata:
     posthtml-parser: "npm:^0.11.0"
     posthtml-render: "npm:^3.0.0"
   checksum: 0505cb70ece051206ffa932394181372be6390a974fd2f50e4e6fdd5d11e41feffba9a5f5e22809ca42899f79bd489d53ceac1d7ad0d782db9521b578e5b7f5a
+  languageName: node
+  linkType: hard
+
+"process@npm:^0.11.10":
+  version: 0.11.10
+  resolution: "process@npm:0.11.10"
+  checksum: 40c3ce4b7e6d4b8c3355479df77aeed46f81b279818ccdc500124e6a5ab882c0cc81ff7ea16384873a95a74c4570b01b120f287abbdd4c877931460eca6084b3
   languageName: node
   linkType: hard
 

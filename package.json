@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn run parcel build src/app.tsx --no-optimize",
-    "watch": "yarn run parcel serve src/app.tsx",
+    "watch": "yarn run parcel serve index.html",
     "dist": "yarn run parcel build src/app.tsx"
   },
   "devDependencies": {
@@ -12,6 +12,7 @@
     "@types/react-dom": "18.2.14",
     "@types/telegram-web-app": "6.9.2",
     "parcel": "2.10.1",
+    "process": "^0.11.10",
     "typescript": "5.2.2"
   },
   "dependencies": {
