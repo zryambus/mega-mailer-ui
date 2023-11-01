@@ -18,9 +18,11 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useStore, create } from 'zustand';
-import { MailAccount } from 'views/mail-account';
-import { WorkingHours } from 'views/working-hours';
-import { ImporttantTags } from 'views/important-tags';
+import { MailAccount } from '~/src/views/mail-account';
+import { WorkingHours } from '~/src/views/working-hours';
+import { ImporttantTags } from '~/src/views/important-tags';
+
+import * as cl from './app.module.scss';
 
 type Store = {
   user: WebAppUser | undefined;
@@ -46,7 +48,7 @@ const View: React.FC = () => {
 
   return (
     <Container size={'lg'}>
-      <Title ta={'center'}>Mega mailer</Title>
+      <Title ta={'center'} className={cl.title}>Mega mailer</Title>
 
       <Accordion variant={'separated'}>
         <Accordion.Item value={'account'}>
@@ -87,13 +89,7 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider defaultColorScheme={window.Telegram.WebApp.colorScheme ?? 'dark'}>
-        <Container
-          style={{ display: 'flex', flexDirection: 'column' }}
-          p={'md'}
-          h={'100%'}
-        >
-          <View />
-        </Container>
+        <View />
       </MantineProvider>
     </QueryClientProvider>
   );

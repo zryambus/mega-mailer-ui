@@ -3,3 +3,4 @@ node_modules
 .yarn
 .parcel-cache
 **/*.scss.d.ts
+dist

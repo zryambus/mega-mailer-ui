@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from 'queries/base';
-import { requestor } from 'context/requestor';
+import { useMutation, useQuery } from '~/src/queries/base';
+import { requestor } from '~/src/context/requestor';
 
 export function getWorkingHoursQuery() {
   return useQuery('WORKING_HOURS', () => {

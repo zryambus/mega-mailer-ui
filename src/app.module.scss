@@ -1,0 +1,19 @@
+@mixin child-spacing-v($spacing: $spacing) {
+  & > *:not(:first-child) {
+    margin-top: $spacing;
+  }
+}
+
+@mixin child-spacing-h($spacing: $spacing) {
+  & > *:not(:last-child) {
+    margin-right: $spacing;
+  }
+}
+
+.childSpacingV {
+  @include child-spacing-v(8px);
+}
+
+.title {
+  margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);
+}
