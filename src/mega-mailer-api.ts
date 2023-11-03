@@ -1,43 +1,9 @@
-export interface User {
-  firstName: string;
-  photo?: string;
-}
-
 export interface MegaMailerApi {
-  '/whoami': {
-    get: {
+  '/auth': {
+    post: {
       params: undefined;
-      response: User;
-    }
-  },
-  '/login': {
-    post: {
-      params: undefined,
-      postData: {
-        username: string;
-        code: string;
-      },
-      response: undefined
-    }
-  },
-  '/login_code': {
-    post: {
-      params: undefined,
-      postData: {
-        username: string
-      },
-      response: undefined
-    }
-  },
-  '/attach_code': {
-    post: {
-      params: undefined,
-      postData: {
-        username: string
-      },
-      response: {
-        code: string
-      }
+      postData: { init_data: string };
+      response: undefined;
     }
   },
   '/logout': {

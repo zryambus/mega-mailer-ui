@@ -4,7 +4,7 @@ import '@mantine/core/esm/index.css';
 
 import {
   MantineProvider, Button, Container, Code, Collapse, Title, Loader, Alert, NavLink,
-  AppShell, Avatar, Burger, Text, Accordion, PasswordInput, TextInput
+  AppShell, Avatar, Burger, Text, Accordion, PasswordInput, TextInput, Progress
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import axios from 'axios';
@@ -20,9 +20,12 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { useStore, create } from 'zustand';
 import { MailAccount } from '~/src/views/mail-account';
 import { WorkingHours } from '~/src/views/working-hours';
-import { ImporttantTags } from '~/src/views/important-tags';
+import { ImportantTags } from '~/src/views/important-tags';
 
 import * as cl from './app.module.scss';
+import { requestor } from './context/requestor';
+import { ImportantEmails } from './views/important-emails';
+import { Checking } from './views/checking';
 
 type Store = {
   user: WebAppUser | undefined;
@@ -39,12 +42,15 @@ const NoMatch = () => (
 );
 
 const View: React.FC = () => {
-  const user = useMyStore(s => s.user);
-  // const navigate = useNavigate();
-  const [showNavbar, { toggle: toggleNavbar, close: closeNavBar }] = useDisclosure(false);
+  const [authorized, loading] = useAuth();
 
-  // if (!user)
-  //   return null;
+  if (loading)
+    return <Loader color={'blue'} size={'xl'} type={'bars'} />
+
+  if (!authorized)
+    return <Alert variant={'default'} color={'blue'} title={'Not authorized'} icon={<IconAlertCircle />}>
+      Something went wrong
+    </Alert>
 
   return (
     <Container size={'lg'}>
@@ -63,10 +69,22 @@ const View: React.FC = () => {
             <WorkingHours />
           </Accordion.Panel>
         </Accordion.Item>
-        <Accordion.Item value={'Improtant tangs'}>
+        <Accordion.Item value={'Improtant tags'}>
           <Accordion.Control>Important tags</Accordion.Control>
           <Accordion.Panel>
-            <ImporttantTags />
+            <ImportantTags />
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value={'Improtant emails'}>
+          <Accordion.Control>Important emails</Accordion.Control>
+          <Accordion.Panel>
+            <ImportantEmails />
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value={'Checking'}>
+          <Accordion.Control>Checking</Accordion.Control>
+          <Accordion.Panel>
+            <Checking />
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
@@ -84,8 +102,6 @@ const App: React.FC = () => {
     }
   });
 
-
-
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider defaultColorScheme={window.Telegram.WebApp.colorScheme ?? 'dark'}>
@@ -97,3 +113,23 @@ const App: React.FC = () => {
 
 const root = createRoot(document.querySelector('#root')!);
 root.render(<App />);
+
+function useAuth() {
+  const [loading, setLoading] = React.useState(true);
+  const user = useMyStore(s => s.user);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        await requestor.postJson('/auth', undefined, { init_data: window.Telegram.WebApp.initData });
+        useMyStore.setState({ user: window.Telegram.WebApp.initDataUnsafe.user });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  const authorized = !loading && user;
+
+  return [authorized, loading];
+}

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Title } from '@mantine/core';
 
-export const ImportantTags = () => {
+export const ImportantEmails = () => {
   return (
     <>
-      <Title>Important tags</Title>
+      <Title>Important emails</Title>
     </>
   )
 }

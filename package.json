@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "yarn run parcel build src/app.tsx --no-optimize",
-    "watch": "yarn run parcel serve index.html",
-    "dist": "yarn run parcel build src/app.tsx"
+    "dev": "parcel watch index.html",
+    "watch": "parcel serve index.html",
+    "dist": "parcel build src/app.tsx"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.10.1",
