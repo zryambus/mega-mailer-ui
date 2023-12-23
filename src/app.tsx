@@ -3,21 +3,16 @@ import { createRoot } from 'react-dom/client';
 import '@mantine/core/esm/index.css';
 
 import {
-  MantineProvider, Button, Container, Code, Collapse, Title, Loader, Alert, NavLink,
-  AppShell, Avatar, Burger, Text, Accordion, PasswordInput, TextInput, Progress
+  MantineProvider,
+  Container,
+  Title,
+  Loader,
+  Alert,
+  Accordion,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import axios from 'axios';
-import { IconAlertCircle, IconArrowBack, IconArrowLeft, IconBook, IconBug, IconFilePlus } from '@tabler/icons-react';
-import {
-  createMemoryRouter,
-  RouterProvider,
-  Link,
-  useNavigate,
-  Outlet
-} from 'react-router-dom';
+import { IconAlertCircle } from '@tabler/icons-react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { useStore, create } from 'zustand';
+import { create } from 'zustand';
 import { MailAccount } from '~/src/views/mail-account';
 import { WorkingHours } from '~/src/views/working-hours';
 import { ImportantTags } from '~/src/views/important-tags';
@@ -26,6 +21,7 @@ import * as cl from './app.module.scss';
 import { requestor } from './context/requestor';
 import { ImportantEmails } from './views/important-emails';
 import { Checking } from './views/checking';
+import { Heartbeat } from './views/heartbeat';
 
 type Store = {
   user: WebAppUser | undefined;
@@ -34,12 +30,6 @@ type Store = {
 const useMyStore = create<Store>()((set, get) => ({
   user: undefined,
 }));
-
-const NoMatch = () => (
-  <div>
-    No Match
-  </div>
-);
 
 const View: React.FC = () => {
   const [authorized, loading] = useAuth();
@@ -87,9 +77,32 @@ const View: React.FC = () => {
             <Checking />
           </Accordion.Panel>
         </Accordion.Item>
+        <Accordion.Item value={'Heartbeat'}>
+          <Accordion.Control>Heartbeat</Accordion.Control>
+          <Accordion.Panel>
+            <Heartbeat />
+          </Accordion.Panel>
+        </Accordion.Item>
       </Accordion>
+
+      <Title ta={'center'} size={'sm'}><UserName /></Title>
     </Container>
   )
+}
+
+const UserName = () => {
+  const { user } = window.Telegram.WebApp.initDataUnsafe;
+  if (!user)
+    return null;
+  const { first_name, last_name, username } = user;
+  let name = first_name;
+
+  if (last_name)
+    name += ' ' + last_name;
+  else if (username)
+    name += ' @' + username;
+
+  return name;
 }
 
 const App: React.FC = () => {

@@ -1,5 +1,5 @@
-import { useQuery } from 'queries/base';
-import { requestor } from 'context/requestor';
+import { useQuery } from '~/src/queries/base';
+import { requestor } from '~/src/context/requestor';
 
 export function getHeartbeatQuery() {
   return useQuery('HEARTBEAT', () => {

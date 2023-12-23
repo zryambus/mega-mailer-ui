@@ -14,7 +14,7 @@ export const Checking = () => {
         label={checking.data ? 'Enabled' : 'Disabled'}
         checked={checking.data}
         onChange={onChange}
-        size={'xl'}
+        size={'lg'}
         onLabel={'ON'}
         offLabel={'OFF'}
       />

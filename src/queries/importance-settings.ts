@@ -7,15 +7,9 @@ export function getImportantEmailsQuery() {
   });
 }
 
-export function getImportantEmailsAddMutation() {
-  return useMutation<void, string>(email => {
-    return requestor.patchJson('/api/important_emails', { email }, undefined);
-  }, 'IMPORTANT_EMAILS')
-}
-
-export function getImportantEmailsRemoveMutation() {
-  return useMutation<void, string>(email => {
-    return requestor.deleteJson('/api/important_emails', { email });
+export function getImportantEmailsMutation() {
+  return useMutation<void, string[]>(emails => {
+    return requestor.postJson('/api/important_emails', undefined, emails);
   }, 'IMPORTANT_EMAILS')
 }
 
@@ -25,14 +19,9 @@ export function getImportantTagsQuery() {
   });
 }
 
-export function getImportantTagsAddMutation() {
-  return useMutation<void, string>(tag => {
-    return requestor.patchJson('/api/important_tags', { tag }, undefined);
+export function getImportantTagsMutation() {
+  return useMutation<void, string[]>(tags => {
+    return requestor.postJson('/api/important_tags', undefined, tags);
   }, 'IMPORTANT_TAGS')
 }
 
-export function getImportantTagsRemoveMutation() {
-  return useMutation<void, string>(tag => {
-    return requestor.deleteJson('/api/important_tags', { tag });
-  }, 'IMPORTANT_TAGS')
-}

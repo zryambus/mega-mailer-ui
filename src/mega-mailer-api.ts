@@ -52,13 +52,9 @@ export interface MegaMailerApi {
       params: undefined,
       response: string[]
     },
-    patch: {
-      params: { email: string },
-      patchData: undefined,
-      response: undefined
-    },
-    delete: {
-      params: { email: string },
+    post: {
+      params: undefined,
+      postData: string[],
       response: undefined
     }
   },
@@ -67,13 +63,9 @@ export interface MegaMailerApi {
       params: undefined,
       response: string[]
     },
-    patch: {
-      params: { tag: string },
-      patchData: undefined,
-      response: undefined
-    },
-    delete: {
-      params: { tag: string },
+    post: {
+      params: undefined,
+      postData: string[],
       response: undefined
     }
   },

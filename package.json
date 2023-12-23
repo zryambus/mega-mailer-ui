@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "parcel watch index.html",
     "watch": "parcel serve index.html",
-    "dist": "parcel build src/app.tsx"
+    "dist": "parcel build index.html"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.10.1",
