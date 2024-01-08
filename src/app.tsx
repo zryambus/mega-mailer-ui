@@ -9,6 +9,7 @@ import {
   Loader,
   Alert,
   Accordion,
+  Space,
 } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -84,7 +85,7 @@ const View: React.FC = () => {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-
+      <Space h={'md'} />
       <Title ta={'center'} size={'sm'}><UserName /></Title>
     </Container>
   )
