@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import '@mantine/core/esm/index.css';
+import '@mantine/core/styles.css';
 
 import {
   MantineProvider,
