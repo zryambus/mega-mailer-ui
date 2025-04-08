@@ -35,5 +35,5 @@
     "typeface-roboto": "1.1.13",
     "zustand": "4.5.2"
   },
-  "packageManager": "yarn@4.0.0"
+  "packageManager": "yarn@4.7.0"
 }
